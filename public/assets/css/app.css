@@ -1,0 +1,4 @@
+body { background:#0b1020; color:#e5e7eb; }
+.card { background:#111827; border:1px solid #253047; color:#e5e7eb; }
+.table { --bs-table-bg:#111827; --bs-table-striped-bg:#0f172a; }
+.form-control, .form-select { background:#0f172a; color:#fff; border-color:#334155; }

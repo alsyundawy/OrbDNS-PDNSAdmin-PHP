@@ -1,0 +1,19 @@
+CREATE TABLE IF NOT EXISTS users (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  username VARCHAR(64) NOT NULL,
+  email VARCHAR(191) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  role ENUM('admin','operator','viewer') NOT NULL DEFAULT 'operator',
+  is_active TINYINT(1) NOT NULL DEFAULT 1,
+  totp_secret VARCHAR(64) DEFAULT NULL,
+  totp_enabled TINYINT(1) NOT NULL DEFAULT 0,
+  failed_login_count SMALLINT NOT NULL DEFAULT 0,
+  last_failed_at DATETIME DEFAULT NULL,
+  last_login_at DATETIME DEFAULT NULL,
+  login_count INT UNSIGNED NOT NULL DEFAULT 0,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  UNIQUE KEY uq_username (username),
+  UNIQUE KEY uq_email (email)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
