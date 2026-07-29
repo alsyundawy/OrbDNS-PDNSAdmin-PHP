@@ -14,25 +14,25 @@ use App\Services\TotpService;
 
 final class AuthController extends Controller
 {
+    private const LOGIN_PATH = '/login';
     public function showLogin(): void
     {
         if (Auth::check()) {
             Helper::redirect('/');
         }
-        $title = 'Login — PDNS Admin';
-        require APP_PATH . '/Views/auth/login.php';
+        require_once APP_PATH . '/Views/auth/login.php';
     }
 
     public function login(): void
     {
-        $config = require APP_PATH . '/Config/config.php';
+        $config = require_once APP_PATH . '/Config/config.php';
         $username = trim((string) ($_POST['username'] ?? ''));
         $password = (string) ($_POST['password'] ?? '');
         $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
         $validator = (new Validator())->required('username', $username, 'Username wajib diisi.')->required('password', $password, 'Password wajib diisi.');
         if (!$validator->passes()) {
             Helper::flashSet('danger', $validator->first());
-            Helper::redirect('/login');
+            Helper::redirect(self::LOGIN_PATH);
         }
         $limiter = new RateLimiter();
         $rateKey = 'login:' . hash('sha256', strtolower($username) . '|' . $ip);
@@ -40,13 +40,13 @@ final class AuthController extends Controller
         if (!$rate['allowed']) {
             ActivityLog::log(null, 'LOGIN_RATE_LIMITED', $username, 'Too many requests', $ip);
             Helper::flashSet('danger', 'Terlalu banyak percobaan login. Coba lagi nanti.');
-            Helper::redirect('/login');
+            Helper::redirect(self::LOGIN_PATH);
         }
         if (!Auth::attempt($username, $password)) {
             User::incrementFailedLogin($username);
             ActivityLog::log(null, 'LOGIN_FAILED', $username, 'Invalid credentials', $ip);
             Helper::flashSet('danger', 'Username atau password tidak valid.');
-            Helper::redirect('/login');
+            Helper::redirect(self::LOGIN_PATH);
         }
         $limiter->clear($rateKey);
         $user = Auth::user();
@@ -67,26 +67,26 @@ final class AuthController extends Controller
     {
         $user = Auth::user();
         if ($user === null) {
-            Helper::redirect('/login');
+            Helper::redirect(self::LOGIN_PATH);
         }
         $dbUser = User::findById($user['id']);
-        $title = '2FA Verification — PDNS Admin';
-        $secret = (string) ($dbUser['totp_secret'] ?? '');
-        $qr = $secret !== '' ? (new TotpService())->getQrImageDataUri($user['username'], $secret) : '';
-        require APP_PATH . '/Views/auth/2fa.php';
+        $qr = ($dbUser !== null && (string) ($dbUser['totp_secret'] ?? '') !== '')
+            ? (new TotpService())->getQrImageDataUri($user['username'], (string) $dbUser['totp_secret'])
+            : '';
+        require_once APP_PATH . '/Views/auth/2fa.php';
     }
 
     public function verify2fa(): void
     {
         $user = Auth::user();
         if ($user === null) {
-            Helper::redirect('/login');
+            Helper::redirect(self::LOGIN_PATH);
         }
         $dbUser = User::findById($user['id']);
         $code = trim((string) ($_POST['otp_code'] ?? ''));
         if ($dbUser === null || (string) ($dbUser['totp_secret'] ?? '') === '') {
             Helper::flashSet('danger', '2FA belum dikonfigurasi.');
-            Helper::redirect('/login');
+            Helper::redirect(self::LOGIN_PATH);
         }
         if (!(new TotpService())->verifyCode((string) $dbUser['totp_secret'], $code)) {
             ActivityLog::log($user['id'], 'TOTP_FAILED', $user['username'], 'Invalid TOTP code');
@@ -106,6 +106,6 @@ final class AuthController extends Controller
         }
         Auth::logout();
         Helper::flashSet('success', 'Berhasil logout.');
-        Helper::redirect('/login');
+        Helper::redirect(self::LOGIN_PATH);
     }
 }

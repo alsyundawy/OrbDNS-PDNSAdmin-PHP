@@ -29,12 +29,10 @@ final class Auth
         if (!isset($_SESSION['user_id'], $_SESSION['ip'], $_SESSION['ua'])) {
             return false;
         }
-        if (($_SESSION['ip'] ?? '') !== ($_SERVER['REMOTE_ADDR'] ?? '')) {
-            self::logout();
-            return false;
-        }
-        $config = require APP_PATH . '/Config/config.php';
-        if (time() - (int) ($_SESSION['login_at'] ?? 0) > $config['session']['lifetime']) {
+        $config = require_once APP_PATH . '/Config/config.php';
+        $ipMismatch = ($_SESSION['ip'] ?? '') !== ($_SERVER['REMOTE_ADDR'] ?? '');
+        $expired = time() - (int) ($_SESSION['login_at'] ?? 0) > $config['session']['lifetime'];
+        if ($ipMismatch || $expired) {
             self::logout();
             return false;
         }
