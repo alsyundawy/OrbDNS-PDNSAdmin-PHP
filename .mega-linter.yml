@@ -8,6 +8,10 @@ EXCLUDED_DIRECTORIES:
   - ".git"
   - "megalinter-reports"
 
+EXCLUDED_FILES:
+  - ".php-cs-fixer.cache"
+  - ".phpunit.cache"
+
 # Apply fixes automatically where supported
 APPLY_FIXES: all
 
