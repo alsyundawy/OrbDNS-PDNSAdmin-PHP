@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Core\Cache;
+use App\Core\Config;
 use App\Exceptions\PowerDNSException;
 
 final class PowerDNSClient
@@ -18,7 +19,7 @@ final class PowerDNSClient
 
     public function __construct()
     {
-        $config = require_once APP_PATH . '/Config/config.php';
+        $config = Config::all();
         $this->baseUrl = $config['pdns']['api_url'];
         $this->apiKey = $config['pdns']['api_key'];
         $this->server = $config['pdns']['server'];

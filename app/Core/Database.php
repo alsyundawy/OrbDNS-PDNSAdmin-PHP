@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core;
 
+use App\Core\Config;
 use App\Exceptions\DatabaseException;
 use PDO;
 use PDOException;
@@ -15,7 +16,7 @@ final class Database
     public static function getInstance(): PDO
     {
         if (self::$instance === null) {
-            $config = require_once APP_PATH . '/Config/config.php';
+            $config = Config::all();
             $db = $config['db'];
             $dsn = sprintf('mysql:host=%s;port=%d;dbname=%s;charset=%s', $db['host'], $db['port'], $db['name'], $db['charset']);
             try {

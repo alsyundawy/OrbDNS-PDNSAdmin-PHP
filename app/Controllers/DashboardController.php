@@ -25,6 +25,6 @@ final class DashboardController extends Controller
         $title = 'Dashboard — PDNS Admin';
         $viewFile = APP_PATH . '/Views/dashboard/index.php';
         require_once APP_PATH . '/Views/layouts/app.php';
-        unset($zones, $recentLogs, $title, $viewFile, $statsMap);
+        unset($pdns, $stats, $zones, $recentLogs, $title, $viewFile, $statsMap);
     }
 }

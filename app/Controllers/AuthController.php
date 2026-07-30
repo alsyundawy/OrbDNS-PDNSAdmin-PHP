@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Core\Auth;
+use App\Core\Config;
 use App\Core\Controller;
 use App\Core\Helper;
 use App\Core\RateLimiter;
@@ -26,7 +27,7 @@ final class AuthController extends Controller
 
     public function login(): void
     {
-        $config = require_once APP_PATH . '/Config/config.php';
+        $config = Config::all();
         $username = trim((string) ($_POST['username'] ?? ''));
         $password = (string) ($_POST['password'] ?? '');
         $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core;
 
+use App\Core\Config;
 use App\Models\User;
 
 final class Auth
@@ -30,7 +31,7 @@ final class Auth
         if (!isset($_SESSION['user_id'], $_SESSION['ip'], $_SESSION['ua'])) {
             return false;
         }
-        $config = require_once APP_PATH . '/Config/config.php';
+        $config = Config::all();
         $ipMismatch = ($_SESSION['ip'] ?? '') !== ($_SERVER['REMOTE_ADDR'] ?? '');
         $expired = time() - (int) ($_SESSION['login_at'] ?? 0) > $config['session']['lifetime'];
         if ($ipMismatch || $expired) {

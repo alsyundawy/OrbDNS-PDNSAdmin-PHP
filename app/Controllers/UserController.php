@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Core\Auth;
+use App\Core\Config;
 use App\Core\Controller;
 use App\Core\Helper;
 use App\Core\Validator;
@@ -57,7 +58,7 @@ final class UserController extends Controller
             Helper::redirect(self::CREATE_URL);
         }
 
-        $config = require_once APP_PATH . '/Config/config.php';
+        $config = Config::all();
         $cost = (int) ($config['security']['bcrypt_cost'] ?? 12);
         $passwordHash = password_hash($password, PASSWORD_BCRYPT, ['cost' => $cost]);
 

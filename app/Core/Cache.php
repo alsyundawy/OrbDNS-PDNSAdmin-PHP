@@ -17,7 +17,7 @@ final class Cache
 
     public function __construct()
     {
-        $config = require_once APP_PATH . '/Config/config.php';
+        $config = Config::all();
         $this->driver = $config['app']['cache_driver'] ?? 'apcu';
         if ($this->driver === 'redis' && extension_loaded('redis') && class_exists('\Redis')) {
             /** @psalm-suppress UndefinedClass */

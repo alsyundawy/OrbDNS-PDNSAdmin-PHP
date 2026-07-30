@@ -51,11 +51,13 @@ $currentUser = Auth::user();
   <?php if ($flash): ?>
     <div class="alert alert-<?= Helper::e($flash['type']) ?> alert-dismissible fade show" role="alert">
       <?= Helper::e($flash['message']) ?>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
   <?php endif; ?>
   <?php if ($viewFile !== '' && file_exists($viewFile)) { require_once $viewFile; } ?>
 </div>
 
+<script nonce="<?= Helper::e($_SESSION['csp_nonce'] ?? '') ?>" src="/assets/js/bootstrap.bundle.min.js"></script>
 <script nonce="<?= Helper::e($_SESSION['csp_nonce'] ?? '') ?>" src="/assets/js/jquery.min.js"></script>
 <script nonce="<?= Helper::e($_SESSION['csp_nonce'] ?? '') ?>" src="/assets/js/app.js"></script>
 </body>

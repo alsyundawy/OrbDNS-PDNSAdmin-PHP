@@ -40,8 +40,12 @@ final class ZoneController extends Controller
             ->domain('name', $name, 'Nama zone tidak valid.')
             ->in('kind', $kind, ['Native', 'Master', 'Slave'], 'Kind zone tidak valid.');
 
-        if ($kind === 'Slave' && $masters !== []) {
-            $validator->ipList('masters', $masters, 'IP master tidak valid');
+        if ($kind === 'Slave') {
+            if ($masters === []) {
+                $validator->required('masters', '', 'Masters wajib diisi untuk zone Slave.');
+            } else {
+                $validator->ipList('masters', $masters, 'IP master tidak valid');
+            }
         }
 
         if (!$validator->passes()) {

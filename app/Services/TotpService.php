@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Core\Config;
 use RobThree\Auth\TwoFactorAuth;
 
 final class TotpService
@@ -12,7 +13,7 @@ final class TotpService
 
     public function __construct()
     {
-        $appName = (require_once APP_PATH . '/Config/config.php')['app']['name'];
+        $appName = Config::all()['app']['name'];
         $this->tfa = new TwoFactorAuth($appName);
     }
 

@@ -11,13 +11,13 @@ final class Session
         if (session_status() === PHP_SESSION_ACTIVE) {
             return;
         }
-        $config = require_once APP_PATH . '/Config/config.php';
+        $config = Config::all();
         $secureCookie = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
             || ((int) ($_SERVER['SERVER_PORT'] ?? 0) === 443)
             || (bool) ($config['session']['secure'] ?? true);
 
         session_name('PDNSADMIN_SESS');
-        session_set_cookie_params([
+        session_set_cookie_params([ // NOSONAR - secure flag is evaluated dynamically above based on HTTPS/port/config
             'lifetime' => 0,
             'path' => '/',
             'domain' => '',
