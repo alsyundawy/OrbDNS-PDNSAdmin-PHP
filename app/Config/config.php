@@ -21,14 +21,14 @@ return [
         'env' => $_ENV['APP_ENV'] ?? 'production',
         'debug' => filter_var($_ENV['APP_DEBUG'] ?? false, FILTER_VALIDATE_BOOLEAN),
         'key' => $_ENV['APP_KEY'] ?? '',
-        'url' => $_ENV['APP_URL'] ?? 'http://localhost',
+        'url' => $_ENV['APP_URL'] ?? 'http://localhost', // DevSkim: ignore DS162092
         'timezone' => $_ENV['APP_TIMEZONE'] ?? 'UTC',
         'force_https' => filter_var($_ENV['APP_FORCE_HTTPS'] ?? true, FILTER_VALIDATE_BOOLEAN),
         'enable_gzip' => filter_var($_ENV['APP_ENABLE_GZIP'] ?? true, FILTER_VALIDATE_BOOLEAN),
         'cache_driver' => $_ENV['APP_CACHE_DRIVER'] ?? 'apcu',
     ],
     'db' => [
-        'host' => $_ENV['DB_HOST'] ?? '127.0.0.1',
+        'host' => $_ENV['DB_HOST'] ?? '127.0.0.1', // DevSkim: ignore DS162092
         'port' => (int) ($_ENV['DB_PORT'] ?? 3306),
         'name' => $_ENV['DB_NAME'] ?? 'pdns_admin',
         'user' => $_ENV['DB_USER'] ?? 'pdns_admin',
@@ -36,9 +36,9 @@ return [
         'charset' => 'utf8mb4',
     ],
     'pdns' => [
-        'api_url' => rtrim($_ENV['PDNS_API_URL'] ?? 'http://127.0.0.1:8081', '/'),
+        'api_url' => rtrim($_ENV['PDNS_API_URL'] ?? 'http://127.0.0.1:8081', '/'), // DevSkim: ignore DS162092,DS137138
         'api_key' => $_ENV['PDNS_API_KEY'] ?? '',
-        'server' => $_ENV['PDNS_SERVER'] ?? 'localhost',
+        'server' => $_ENV['PDNS_SERVER'] ?? 'localhost', // DevSkim: ignore DS162092
         'timeout' => (int) ($_ENV['PDNS_TIMEOUT'] ?? 10),
         'cache_ttl' => (int) ($_ENV['PDNS_CACHE_TTL'] ?? 60),
     ],

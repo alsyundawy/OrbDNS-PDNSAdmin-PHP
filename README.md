@@ -1,19 +1,13 @@
 # OrbDNS PDNSAdmin PHP
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/alsyundawy/OrbDNS-PDNSAdmin-PHP/main/public/assets/img/logo.png" alt="OrbDNS PDNSAdmin Logo" width="120" error="this.style.display='none'">
-</p>
+![OrbDNS PDNSAdmin Logo](https://raw.githubusercontent.com/alsyundawy/OrbDNS-PDNSAdmin-PHP/main/public/assets/img/logo.png)
 
-<p align="center">
-  <strong>A Modern, Lightweight, & Secure PowerDNS Management Web Interface</strong>
-</p>
+## A Modern, Lightweight, & Secure PowerDNS Management Web Interface
 
-<p align="center">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
-  <a href="https://php.net"><img src="https://img.shields.io/badge/php-%3E%3D%208.1-777bb4.svg" alt="PHP Version"></a>
-  <a href="https://powerdns.com"><img src="https://img.shields.io/badge/PowerDNS-API-red.svg" alt="PowerDNS"></a>
-  <a href="https://bootstrapget.com"><img src="https://img.shields.io/badge/Bootstrap-5.3-7952b3.svg" alt="Bootstrap 5"></a>
-</p>
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![PHP Version](https://img.shields.io/badge/php-%3E%3D%208.1-777bb4.svg)](https://php.net)
+[![PowerDNS](https://img.shields.io/badge/PowerDNS-API-red.svg)](https://powerdns.com)
+[![Bootstrap 5](https://img.shields.io/badge/Bootstrap-5.3-7952b3.svg)](https://bootstrapget.com)
 
 ---
 

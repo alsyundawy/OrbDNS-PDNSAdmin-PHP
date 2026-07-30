@@ -50,7 +50,7 @@ sudo chmod +x /usr/local/bin/composer
 sudo mysql_secure_installation
 ```
 
-2. Masuk ke console MariaDB untuk membuat database dan user:
+1. Masuk ke console MariaDB untuk membuat database dan user:
 
 ```sql
 sudo mysql -u root -p
@@ -111,13 +111,13 @@ sudo git clone https://github.com/alsyundawy/OrbDNS-PDNSAdmin-PHP.git
 cd OrbDNS-PDNSAdmin-PHP
 ```
 
-2. Install dependensi Composer tanpa dev package:
+1. Install dependensi Composer tanpa dev package:
 
 ```bash
 sudo composer install --no-dev --optimize-autoloader
 ```
 
-3. Buat file `.env` dari template:
+1. Buat file `.env` dari template:
 
 ```bash
 sudo cp .env.example .env
@@ -235,7 +235,7 @@ sudo certbot --nginx -d pdns.domainanda.com
 ## 🎉 Langkah 10: Verifikasi & Login Pertama
 
 1. Buka browser dan kunjungi `https://pdns.domainanda.com/login`.
-2. Kredensial default bawaan seeder:
+1. Kredensial default bawaan seeder:
    - **Username**: `admin`
    - **Password**: `admin123`
-3. **PENTING**: Segera ganti password admin default dan aktifkan 2FA TOTP demi keamanan server Anda.
+1. **PENTING**: Segera ganti password admin default dan aktifkan 2FA TOTP demi keamanan server Anda.

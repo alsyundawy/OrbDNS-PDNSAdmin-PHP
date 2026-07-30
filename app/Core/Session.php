@@ -12,16 +12,16 @@ final class Session
             return;
         }
         $config = require_once APP_PATH . '/Config/config.php';
-        $isSecure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+        $secureCookie = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
             || ((int) ($_SERVER['SERVER_PORT'] ?? 0) === 443)
-            || (bool) ($config['session']['secure'] ?? false);
+            || (bool) ($config['session']['secure'] ?? true);
 
         session_name('PDNSADMIN_SESS');
         session_set_cookie_params([
             'lifetime' => 0,
             'path' => '/',
             'domain' => '',
-            'secure' => $isSecure,
+            'secure' => $secureCookie,
             'httponly' => true,
             'samesite' => (string) ($config['session']['samesite'] ?? 'Strict'),
         ]);
