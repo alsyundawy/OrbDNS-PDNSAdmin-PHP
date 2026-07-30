@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## Version 1.3.0 (2026-07-30)
+
+### Added in 1.3.0
+
+- Fitur Manajemen User Admin/Superuser (`/users`, `/users/create`, `/users/store`) untuk membuat user baru dan memulihkan akses administrator.
+- Header Navigasi Utama pada `app.php` untuk mempermudah navigasi antara Dashboard, Zones, Users, Logs, dan Logout.
+- Metode `all()`, `exists()`, dan `create()` pada `User` model.
+
+### Changed in 1.3.0
+
+- Pembaruan konstanta versi aplikasi `APP_VERSION` menjadi `1.3.0`.
+- Audit komprehensif seluruh kode PHP, route protection (`role:admin`), sanitasi input, dan penanganan CSRF.
+
 ## Version 1.2.0 (2026-07-30)
 
 ### Added in 1.2.0

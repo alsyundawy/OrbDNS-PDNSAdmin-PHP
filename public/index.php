@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 define('BASE_PATH', dirname(__DIR__));
 define('APP_PATH', BASE_PATH . '/app');
-define('APP_VERSION', '1.1.0');
+define('APP_VERSION', '1.3.0');
 
 require_once BASE_PATH . '/vendor/autoload.php';
 

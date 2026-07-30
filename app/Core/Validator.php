@@ -24,6 +24,14 @@ final class Validator
         return $this;
     }
 
+    public function minLen(string $field, mixed $value, int $min, string $message): self
+    {
+        if (is_string($value) && mb_strlen($value) < $min) {
+            $this->errors[$field][] = $message;
+        }
+        return $this;
+    }
+
     public function domain(string $field, mixed $value, string $message): self
     {
         $pattern = '/^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}\.?$/';
