@@ -1,10 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Services;
 
 use App\Core\Cache;
-use RuntimeException;
+use App\Exceptions\PowerDNSException;
 
 final class PowerDNSClient
 {
@@ -17,7 +18,7 @@ final class PowerDNSClient
 
     public function __construct()
     {
-        $config = require APP_PATH . '/Config/config.php';
+        $config = require_once APP_PATH . '/Config/config.php';
         $this->baseUrl = $config['pdns']['api_url'];
         $this->apiKey = $config['pdns']['api_key'];
         $this->server = $config['pdns']['server'];
@@ -31,7 +32,7 @@ final class PowerDNSClient
         $url = $this->baseUrl . '/api/v1/servers/' . rawurlencode($this->server) . $endpoint;
         $curl = curl_init($url);
         if ($curl === false) {
-            throw new RuntimeException('Unable to initialize cURL.');
+            throw new PowerDNSException('Unable to initialize cURL.');
         }
         curl_setopt_array($curl, [
             CURLOPT_RETURNTRANSFER => true,
@@ -49,11 +50,11 @@ final class PowerDNSClient
         $error = curl_error($curl);
         curl_close($curl);
         if ($response === false) {
-            throw new RuntimeException('PowerDNS API request failed: ' . $error);
+            throw new PowerDNSException('PowerDNS API request failed: ' . $error);
         }
-        $decoded = json_decode($response, true);
+        $decoded = json_decode((string) $response, true);
         if ($httpCode >= 400) {
-            throw new RuntimeException('PowerDNS API error.');
+            throw new PowerDNSException('PowerDNS API error with status code ' . $httpCode);
         }
         return $decoded;
     }

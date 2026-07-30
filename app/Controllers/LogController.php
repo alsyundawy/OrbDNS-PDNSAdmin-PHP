@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controllers;
@@ -13,7 +14,8 @@ final class LogController extends Controller
         $logs = ActivityLog::all(1, 100);
         $title = 'Activity Logs — PDNS Admin';
         $viewFile = APP_PATH . '/Views/logs/index.php';
-        require APP_PATH . '/Views/layouts/app.php';
+        require_once APP_PATH . '/Views/layouts/app.php';
+        unset($logs, $title, $viewFile);
     }
 
     public function exportCsv(): never
@@ -22,11 +24,13 @@ final class LogController extends Controller
         header('Content-Type: text/csv; charset=utf-8');
         header('Content-Disposition: attachment; filename="activity-logs.csv"');
         $out = fopen('php://output', 'wb');
-        fputcsv($out, ['id', 'username', 'action', 'target', 'detail', 'ip_address', 'created_at']);
-        foreach ($logs as $log) {
-            fputcsv($out, [$log['id'] ?? '', $log['username'] ?? '', $log['action'] ?? '', $log['target'] ?? '', $log['detail'] ?? '', $log['ip_address'] ?? '', $log['created_at'] ?? '']);
+        if ($out !== false) {
+            fputcsv($out, ['id', 'username', 'action', 'target', 'detail', 'ip_address', 'created_at']);
+            foreach ($logs as $log) {
+                fputcsv($out, [$log['id'] ?? '', $log['username'] ?? '', $log['action'] ?? '', $log['target'] ?? '', $log['detail'] ?? '', $log['ip_address'] ?? '', $log['created_at'] ?? '']);
+            }
+            fclose($out);
         }
-        fclose($out);
         exit;
     }
 }

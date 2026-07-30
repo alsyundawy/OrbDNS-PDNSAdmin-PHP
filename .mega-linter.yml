@@ -1,0 +1,16 @@
+---
+# MegaLinter Configuration
+# Documentation: https://megalinter.io/latest/config-file/
+
+EXCLUDED_DIRECTORIES:
+  - "vendor"
+  - "node_modules"
+  - ".git"
+  - "megalinter-reports"
+
+# Apply fixes automatically where supported
+APPLY_FIXES: all
+
+# Disable linters that don't apply or cause false positives on third-party dependencies
+DISABLE_LINTERS:
+  - REPOSITORY_KINGFISHER

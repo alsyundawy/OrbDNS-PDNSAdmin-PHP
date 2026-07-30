@@ -1,11 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Core;
 
+use App\Exceptions\DatabaseException;
 use PDO;
 use PDOException;
-use RuntimeException;
 
 final class Database
 {
@@ -14,7 +15,7 @@ final class Database
     public static function getInstance(): PDO
     {
         if (self::$instance === null) {
-            $config = require APP_PATH . '/Config/config.php';
+            $config = require_once APP_PATH . '/Config/config.php';
             $db = $config['db'];
             $dsn = sprintf('mysql:host=%s;port=%d;dbname=%s;charset=%s', $db['host'], $db['port'], $db['name'], $db['charset']);
             try {
@@ -24,8 +25,8 @@ final class Database
                     PDO::ATTR_EMULATE_PREPARES => false,
                     PDO::ATTR_STRINGIFY_FETCHES => false,
                 ]);
-            } catch (PDOException) {
-                throw new RuntimeException('Database connection failed.');
+            } catch (PDOException $e) {
+                throw new DatabaseException('Database connection failed: ' . $e->getMessage(), 0, $e);
             }
         }
         return self::$instance;

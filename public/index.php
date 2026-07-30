@@ -1,13 +1,14 @@
 <?php
+
 declare(strict_types=1);
 
 define('BASE_PATH', dirname(__DIR__));
 define('APP_PATH', BASE_PATH . '/app');
 define('APP_VERSION', '1.1.0');
 
-require BASE_PATH . '/vendor/autoload.php';
+require_once BASE_PATH . '/vendor/autoload.php';
 
-$config = require APP_PATH . '/Config/config.php';
+$config = require_once APP_PATH . '/Config/config.php';
 date_default_timezone_set($config['app']['timezone']);
 
 if ($config['app']['enable_gzip']) {

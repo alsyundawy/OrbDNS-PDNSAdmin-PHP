@@ -11,8 +11,14 @@
   <div class="card bg-black border-secondary p-4 shadow-lg">
     <h1 class="h4 mb-3">PDNS Admin Login</h1>
     <form method="POST" action="/login"><?= Helper::csrfField() ?>
-      <div class="mb-3"><label class="form-label">Username</label><input class="form-control" type="text" name="username" required></div>
-      <div class="mb-3"><label class="form-label">Password</label><input class="form-control" type="password" name="password" required></div>
+      <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input id="username" class="form-control" type="text" name="username" required>
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input id="password" class="form-control" type="password" name="password" required>
+      </div>
       <button class="btn btn-primary w-100" type="submit">Masuk</button>
     </form>
   </div>

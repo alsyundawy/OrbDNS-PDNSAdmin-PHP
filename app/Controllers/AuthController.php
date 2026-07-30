@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controllers;
@@ -74,6 +75,7 @@ final class AuthController extends Controller
             ? (new TotpService())->getQrImageDataUri($user['username'], (string) $dbUser['totp_secret'])
             : '';
         require_once APP_PATH . '/Views/auth/2fa.php';
+        unset($qr);
     }
 
     public function verify2fa(): void

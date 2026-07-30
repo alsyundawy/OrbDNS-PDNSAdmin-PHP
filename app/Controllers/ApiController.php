@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controllers;
@@ -12,7 +13,7 @@ final class ApiController extends Controller
 {
     private function guardApiRateLimit(): void
     {
-        $config = require APP_PATH . '/Config/config.php';
+        $config = require_once APP_PATH . '/Config/config.php';
         $key = 'api:' . hash('sha256', (string) ($_SESSION['user_id'] ?? 'guest') . '|' . ($_SERVER['REMOTE_ADDR'] ?? 'unknown'));
         $rate = (new RateLimiter())->hit($key, $config['rate_limit']['api_max'], $config['rate_limit']['api_window']);
         if (!$rate['allowed']) {

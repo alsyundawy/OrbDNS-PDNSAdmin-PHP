@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Services;
@@ -11,7 +12,7 @@ final class TotpService
 
     public function __construct()
     {
-        $appName = (require APP_PATH . '/Config/config.php')['app']['name'];
+        $appName = (require_once APP_PATH . '/Config/config.php')['app']['name'];
         $this->tfa = new TwoFactorAuth($appName);
     }
 

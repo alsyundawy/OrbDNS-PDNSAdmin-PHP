@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Core;
@@ -34,20 +35,31 @@ final class Router
     {
         $method = strtoupper($_SERVER['REQUEST_METHOD'] ?? 'GET');
         $uri = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
+
         foreach ($this->routes as [$routeMethod, $routePath, $action, $middlewares]) {
             if ($routeMethod === $method && $routePath === $uri) {
-                foreach ($middlewares as $mw) {
-                    if ($mw === 'auth') AuthMiddleware::handle();
-                    if ($mw === 'csrf') CsrfMiddleware::handle();
-                    if (str_starts_with($mw, 'role:')) RoleMiddleware::handle(substr($mw, 5));
-                }
+                $this->executeMiddlewares($middlewares);
                 [$controller, $actionMethod] = explode('@', $action);
                 $class = 'App\\Controllers\\' . $controller;
                 (new $class())->{$actionMethod}();
                 return;
             }
         }
+
         http_response_code(404);
         echo 'Not Found';
+    }
+
+    private function executeMiddlewares(array $middlewares): void
+    {
+        foreach ($middlewares as $mw) {
+            if ($mw === 'auth') {
+                AuthMiddleware::handle();
+            } elseif ($mw === 'csrf') {
+                CsrfMiddleware::handle();
+            } elseif (str_starts_with($mw, 'role:')) {
+                RoleMiddleware::handle(substr($mw, 5));
+            }
+        }
     }
 }

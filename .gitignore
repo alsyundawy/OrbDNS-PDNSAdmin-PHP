@@ -1,0 +1,9 @@
+/vendor/
+.env
+.env.local
+.env.*.local
+*.log
+.DS_Store
+.php-cs-fixer.cache
+.phpunit.cache
+megalinter-reports/

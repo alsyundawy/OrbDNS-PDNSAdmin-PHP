@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controllers;
@@ -23,6 +24,7 @@ final class DashboardController extends Controller
         $recentLogs = ActivityLog::all(1, 10);
         $title = 'Dashboard — PDNS Admin';
         $viewFile = APP_PATH . '/Views/dashboard/index.php';
-        require APP_PATH . '/Views/layouts/app.php';
+        require_once APP_PATH . '/Views/layouts/app.php';
+        unset($zones, $recentLogs, $title, $viewFile, $statsMap);
     }
 }

@@ -1,3 +1,4 @@
+/* global $, jQuery */
 'use strict';
 (function ($) {
   function esc(str) {
