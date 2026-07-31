@@ -14,6 +14,10 @@ final class SecurityHeaders
         header('X-Content-Type-Options: nosniff');
         header('Referrer-Policy: strict-origin-when-cross-origin');
         header('Permissions-Policy: geolocation=(), camera=(), microphone=()');
-        header("Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-{$nonce}'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'");
+        $csp = "default-src 'self'; script-src 'self' 'nonce-{$nonce}'; "
+            . "style-src 'self' 'unsafe-inline'; img-src 'self' data:; "
+            . "font-src 'self'; connect-src 'self'; frame-ancestors 'none'; "
+            . "base-uri 'self'; form-action 'self'";
+        header('Content-Security-Policy: ' . $csp);
     }
 }

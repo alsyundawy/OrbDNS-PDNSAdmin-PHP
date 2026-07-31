@@ -27,7 +27,15 @@ final class LogController extends Controller
         if ($out !== false) {
             fputcsv($out, ['id', 'username', 'action', 'target', 'detail', 'ip_address', 'created_at']);
             foreach ($logs as $log) {
-                fputcsv($out, [$log['id'] ?? '', $log['username'] ?? '', $log['action'] ?? '', $log['target'] ?? '', $log['detail'] ?? '', $log['ip_address'] ?? '', $log['created_at'] ?? '']);
+                fputcsv($out, [
+                    $log['id'] ?? '',
+                    $log['username'] ?? '',
+                    $log['action'] ?? '',
+                    $log['target'] ?? '',
+                    $log['detail'] ?? '',
+                    $log['ip_address'] ?? '',
+                    $log['created_at'] ?? '',
+                ]);
             }
             fclose($out);
         }

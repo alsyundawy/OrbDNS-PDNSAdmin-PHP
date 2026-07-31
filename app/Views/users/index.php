@@ -1,4 +1,5 @@
 <?php
+
 use App\Core\Helper;
 
 /** @var array $users */
@@ -24,7 +25,7 @@ $users = $users ?? [];
         </tr>
       </thead>
       <tbody>
-        <?php foreach ($users as $u): ?>
+        <?php foreach ($users as $u) : ?>
           <tr>
             <td><?= Helper::e($u['id'] ?? '') ?></td>
             <td><strong><?= Helper::e($u['username'] ?? '') ?></strong></td>

@@ -10,7 +10,9 @@ final class User
 {
     public static function all(): array
     {
-        $stmt = Database::query('SELECT id, username, email, role, is_active, totp_enabled, last_login_at, created_at FROM users ORDER BY id DESC');
+        $sql = 'SELECT id, username, email, role, is_active, totp_enabled, last_login_at, created_at '
+            . 'FROM users ORDER BY id DESC';
+        $stmt = Database::query($sql);
         return $stmt->fetchAll() ?: [];
     }
 
@@ -43,11 +45,15 @@ final class User
 
     public static function updateLastLogin(int $id): void
     {
-        Database::query('UPDATE users SET last_login_at = NOW(), login_count = login_count + 1, failed_login_count = 0, last_failed_at = NULL WHERE id = ?', [$id]);
+        $sql = 'UPDATE users SET last_login_at = NOW(), login_count = login_count + 1, '
+            . 'failed_login_count = 0, last_failed_at = NULL WHERE id = ?';
+        Database::query($sql, [$id]);
     }
 
     public static function incrementFailedLogin(string $username): void
     {
-        Database::query('UPDATE users SET failed_login_count = failed_login_count + 1, last_failed_at = NOW() WHERE username = ?', [$username]);
+        $sql = 'UPDATE users SET failed_login_count = failed_login_count + 1, '
+            . 'last_failed_at = NOW() WHERE username = ?';
+        Database::query($sql, [$username]);
     }
 }

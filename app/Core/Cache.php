@@ -60,7 +60,7 @@ final class Cache
     public function delete(string $key): bool
     {
         if ($this->driver === 'apcu' && \function_exists('apcu_delete')) {
-            return (bool) \apcu_delete($key);
+            return \apcu_delete($key) !== false;
         }
         if ($this->driver === 'redis' && $this->redis !== null) {
             return (bool) $this->redis->del($key);

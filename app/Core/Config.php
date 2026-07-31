@@ -37,7 +37,7 @@ final class Config
     public static function all(): array
     {
         if (self::$data === null) {
-            /** @var array<string, mixed> $loaded */
+            /** @var mixed $loaded */
             $loaded = require_once APP_PATH . '/Config/config.php';
             self::$data = is_array($loaded) ? $loaded : [];
         }

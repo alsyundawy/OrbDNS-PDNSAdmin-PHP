@@ -37,14 +37,19 @@ final class PowerDNSClient
         }
         curl_setopt_array($curl, [
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HTTPHEADER => ['X-API-Key: ' . $this->apiKey, 'Accept: application/json', 'Content-Type: application/json'],
+            CURLOPT_HTTPHEADER => [
+                'X-API-Key: ' . $this->apiKey,
+                'Accept: application/json',
+                'Content-Type: application/json',
+            ],
             CURLOPT_TIMEOUT => $this->timeout,
             CURLOPT_CUSTOMREQUEST => strtoupper($method),
             CURLOPT_SSL_VERIFYPEER => false,
             CURLOPT_SSL_VERIFYHOST => 0,
         ]);
         if ($data !== []) {
-            curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+            $payload = json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
         }
         $response = curl_exec($curl);
         $httpCode = (int) curl_getinfo($curl, CURLINFO_HTTP_CODE);

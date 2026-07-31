@@ -1,4 +1,8 @@
-<?php use App\Core\Helper; ?>
+<?php
+
+use App\Core\Helper;
+
+?>
 <div class="card p-4">
   <h1 class="h4 mb-3">Create Zone</h1>
   <form method="POST" action="/zones"><?= Helper::csrfField() ?>

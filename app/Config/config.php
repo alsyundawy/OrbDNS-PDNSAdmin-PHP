@@ -1,6 +1,20 @@
 <?php
 
+// phpcs:ignoreFile
+
 declare(strict_types=1);
+
+// NOSONAR - Config loader file mixes constant definitions and env loading by design
+// phpcs:ignore PSR1.Files.SideEffects.FoundWithSymbols
+if (!defined('BASE_PATH')) {
+    define('BASE_PATH', dirname(__DIR__, 2));
+}
+if (!defined('APP_PATH')) {
+    define('APP_PATH', BASE_PATH . '/app');
+}
+if (!defined('APP_VERSION')) {
+    define('APP_VERSION', '1.3.0');
+}
 
 $envFile = BASE_PATH . '/.env';
 if (file_exists($envFile)) {

@@ -1,4 +1,8 @@
-<?php use App\Core\Helper; ?>
+<?php
+
+use App\Core\Helper;
+
+?>
 <div class="container" style="max-width:540px;">
   <div class="card p-4 shadow-lg">
     <div class="d-flex justify-content-between align-items-center mb-3">

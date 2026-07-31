@@ -15,7 +15,9 @@ final class ApiController extends Controller
     private function guardApiRateLimit(): void
     {
         $config = Config::all();
-        $key = 'api:' . hash('sha256', (string) ($_SESSION['user_id'] ?? 'guest') . '|' . ($_SERVER['REMOTE_ADDR'] ?? 'unknown'));
+        $userId = (string) ($_SESSION['user_id'] ?? 'guest');
+        $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+        $key = 'api:' . hash('sha256', $userId . '|' . $ip);
         $rate = (new RateLimiter())->hit($key, $config['rate_limit']['api_max'], $config['rate_limit']['api_window']);
         if (!$rate['allowed']) {
             Helper::json(['success' => false, 'error' => 'Rate limit exceeded'], 429);
@@ -33,7 +35,12 @@ final class ApiController extends Controller
         $this->guardApiRateLimit();
         try {
             $info = (new PowerDNSClient())->getServerInfo();
-            Helper::json(['success' => true, 'status' => 'ok', 'server_id' => $info['id'] ?? 'unknown', 'version' => $info['version'] ?? 'unknown']);
+            Helper::json([
+                'success' => true,
+                'status' => 'ok',
+                'server_id' => $info['id'] ?? 'unknown',
+                'version' => $info['version'] ?? 'unknown',
+            ]);
         } catch (\Throwable) {
             Helper::json(['success' => false, 'status' => 'down'], 503);
         }

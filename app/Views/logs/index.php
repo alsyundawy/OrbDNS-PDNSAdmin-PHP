@@ -1,4 +1,7 @@
 <?php
+
+use App\Core\Helper;
+
 /** @var array $logs */
 $logs = $logs ?? [];
 ?>
@@ -20,14 +23,14 @@ $logs = $logs ?? [];
         </tr>
       </thead>
       <tbody>
-        <?php foreach ($logs as $log): ?>
+        <?php foreach ($logs as $log) : ?>
           <tr>
-            <td><?= \App\Core\Helper::e($log['id'] ?? '') ?></td>
-            <td><?= \App\Core\Helper::e($log['username'] ?? '') ?></td>
-            <td><?= \App\Core\Helper::e($log['action'] ?? '') ?></td>
-            <td><?= \App\Core\Helper::e($log['target'] ?? '') ?></td>
-            <td><?= \App\Core\Helper::e($log['ip_address'] ?? '') ?></td>
-            <td><?= \App\Core\Helper::e($log['created_at'] ?? '') ?></td>
+            <td><?= Helper::e($log['id'] ?? '') ?></td>
+            <td><?= Helper::e($log['username'] ?? '') ?></td>
+            <td><?= Helper::e($log['action'] ?? '') ?></td>
+            <td><?= Helper::e($log['target'] ?? '') ?></td>
+            <td><?= Helper::e($log['ip_address'] ?? '') ?></td>
+            <td><?= Helper::e($log['created_at'] ?? '') ?></td>
           </tr>
         <?php endforeach; ?>
       </tbody>

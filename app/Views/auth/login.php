@@ -1,10 +1,18 @@
-<?php use App\Core\Helper; ?>
+<?php
+
+use App\Core\Helper;
+
+/** @var string $title */
+$title = $title ?? 'Login';
+?>
 <!DOCTYPE html>
 <html lang="id" data-bs-theme="dark">
 <head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?= Helper::e($title ?? 'Login') ?></title>
-  <link rel="stylesheet" href="/assets/css/bootstrap.min.css"><link rel="stylesheet" href="/assets/css/app.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><?= Helper::e($title) ?></title>
+  <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/css/app.css">
 </head>
 <body class="bg-dark text-light d-flex align-items-center" style="min-height:100vh;">
 <div class="container" style="max-width:420px;">

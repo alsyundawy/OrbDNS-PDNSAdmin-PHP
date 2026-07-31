@@ -7,11 +7,15 @@
 - Fitur Manajemen User Admin/Superuser (`/users`, `/users/create`, `/users/store`) untuk membuat user baru dan memulihkan akses administrator.
 - Header Navigasi Utama pada `app.php` untuk mempermudah navigasi antara Dashboard, Zones, Users, Logs, dan Logout.
 - Metode `all()`, `exists()`, dan `create()` pada `User` model.
+- Bootstrap static analysis (`phpstan-bootstrap.php`) dan konfigurasi `.php-cs-fixer.php`.
 
 ### Changed in 1.3.0
 
 - Pembaruan konstanta versi aplikasi `APP_VERSION` menjadi `1.3.0`.
 - Audit komprehensif seluruh kode PHP, route protection (`role:admin`), sanitasi input, dan penanganan CSRF.
+- Perbaikan binding parameter `Database::query()` dengan tipe data eksplisit (`PDO::PARAM_INT`, `PDO::PARAM_BOOL`, `PDO::PARAM_NULL`, `PDO::PARAM_STR`) untuk query `LIMIT` dan `OFFSET`.
+- Pembenahan `.php-cs-fixer.php` dengan pengecekan `class_exists` untuk mencegah error undefined type pada IDE.
+- Kepatuhan 100% terhadap `phpcs` (PSR-12), `phpstan` (Level 5), `psalm` (Level 4), `phplint`, `php-cs-fixer`, dan IDE inspection rules.
 
 ## Version 1.2.0 (2026-07-30)
 

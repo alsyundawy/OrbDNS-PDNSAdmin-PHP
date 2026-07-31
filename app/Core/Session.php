@@ -21,7 +21,7 @@ final class Session
             'lifetime' => 0,
             'path' => '/',
             'domain' => '',
-            'secure' => (bool) $secureCookie,
+            'secure' => $secureCookie,
             'httponly' => true,
             'samesite' => (string) ($config['session']['samesite'] ?? 'Strict'),
         ]);

@@ -31,7 +31,9 @@ final class AuthController extends Controller
         $username = trim((string) ($_POST['username'] ?? ''));
         $password = (string) ($_POST['password'] ?? '');
         $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
-        $validator = (new Validator())->required('username', $username, 'Username wajib diisi.')->required('password', $password, 'Password wajib diisi.');
+        $validator = (new Validator())
+            ->required('username', $username, 'Username wajib diisi.')
+            ->required('password', $password, 'Password wajib diisi.');
         if (!$validator->passes()) {
             Helper::flashSet('danger', $validator->first());
             Helper::redirect(self::LOGIN_PATH);

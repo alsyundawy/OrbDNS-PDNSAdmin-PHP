@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Core;
 
-use App\Core\Config;
 use App\Models\User;
 
 final class Auth
@@ -12,7 +11,10 @@ final class Auth
     public static function attempt(string $username, string $password): bool
     {
         $user = User::findByUsername($username);
-        if ($user === null || !password_verify($password, (string) $user['password']) || (int) $user['is_active'] !== 1) {
+        $invalid = $user === null
+            || !password_verify($password, (string) $user['password'])
+            || (int) $user['is_active'] !== 1;
+        if ($invalid) {
             return false;
         }
         session_regenerate_id(true);
@@ -33,7 +35,7 @@ final class Auth
         }
         $config = Config::all();
         $ipMismatch = ($_SESSION['ip'] ?? '') !== ($_SERVER['REMOTE_ADDR'] ?? '');
-        $expired = time() - (int) ($_SESSION['login_at'] ?? 0) > $config['session']['lifetime'];
+        $expired = time() - (int) ($_SESSION['login_at'] ?? 0) > (int) ($config['session']['lifetime'] ?? 7200);
         if ($ipMismatch || $expired) {
             self::logout();
             return false;
@@ -45,8 +47,8 @@ final class Auth
     {
         return isset($_SESSION['user_id']) ? [
             'id' => (int) $_SESSION['user_id'],
-            'username' => (string) $_SESSION['username'],
-            'role' => (string) $_SESSION['role'],
+            'username' => (string) ($_SESSION['username'] ?? ''),
+            'role' => (string) ($_SESSION['role'] ?? ''),
         ] : null;
     }
 
@@ -60,7 +62,15 @@ final class Auth
         $_SESSION = [];
         if (ini_get('session.use_cookies')) {
             $params = session_get_cookie_params();
-            setcookie(session_name(), '', time() - 42000, $params['path'], $params['domain'], (bool) $params['secure'], (bool) $params['httponly']);
+            setcookie(
+                session_name(),
+                '',
+                time() - 42000,
+                $params['path'],
+                $params['domain'],
+                (bool) $params['secure'],
+                (bool) $params['httponly']
+            );
         }
         session_destroy();
     }
