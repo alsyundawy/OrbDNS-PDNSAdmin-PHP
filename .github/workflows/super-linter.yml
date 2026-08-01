@@ -1,35 +1,44 @@
-# This workflow executes several linters on changed files based on languages used in your code base whenever
-# you push a code or open a pull request.
-#
-# You can adjust the behavior by modifying this file.
-# For more information, see:
-# https://github.com/github/super-linter
-name: Lint Code Base
+---
+name: Super-Linter
 
-on:
+"on":
   push:
-    branches: [ "main" ]
+    branches: [main, master]
   pull_request:
-    branches: [ "main" ]
+    branches: [main, master]
 
-permissions:
-  contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions: read-all
 
 jobs:
-  run-lint:
+  super-linter:
+    name: Super-Linter Scan
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          # Full git history is needed to get a proper list of changed files within `super-linter`
-          fetch-depth: 0
+      statuses: write
 
-      - name: Lint Code Base
-        uses: github/super-linter@v4
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Super-Linter
+        uses: super-linter/super-linter@b92721f792f381cedc002ecdbb9847a15ece5bb8 # v7.1.0
         env:
-          VALIDATE_ALL_CODEBASE: false
-          DEFAULT_BRANCH: "main"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BRANCH: main
+          VALIDATE_ALL_CODEBASE: false
+          VALIDATE_PHP_BUILTIN: true
+          VALIDATE_PHP_PHPCS: true
+          VALIDATE_JAVASCRIPT_ES: true
+          VALIDATE_CSS: true
+          VALIDATE_MARKDOWN: true
+          VALIDATE_YAML: true
+          VALIDATE_JSON: true
+          VALIDATE_BASH: true
