@@ -8,6 +8,7 @@ final class Session
 {
     public static function start(): void
     {
+        /** @psalm-suppress UndefinedConstant */
         if (session_status() === PHP_SESSION_ACTIVE) {
             return;
         }

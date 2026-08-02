@@ -19,5 +19,12 @@
         <PossiblyUnusedReturnValue errorLevel="info" />
         <UnusedClass errorLevel="info" />
         <UnusedMethod errorLevel="info" />
+        <UndefinedConstant>
+            <errorLevel type="suppress">
+                <referencedConstant name="PHP_SESSION_ACTIVE" />
+                <referencedConstant name="PHP_SESSION_NONE" />
+                <referencedConstant name="PHP_SESSION_DISABLED" />
+            </errorLevel>
+        </UndefinedConstant>
     </issueHandlers>
 </psalm>

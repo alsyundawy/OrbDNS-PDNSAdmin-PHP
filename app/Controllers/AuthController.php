@@ -17,6 +17,16 @@ use App\Services\TotpService;
 final class AuthController extends Controller
 {
     private const LOGIN_PATH = '/login';
+
+    /**
+     * Flash a danger message and redirect to login — DRY helper for login failures.
+     */
+    private function failLogin(string $message): never
+    {
+        Helper::flashSet('danger', $message);
+        Helper::redirect(self::LOGIN_PATH);
+    }
+
     public function showLogin(): void
     {
         if (Auth::check()) {
@@ -35,22 +45,19 @@ final class AuthController extends Controller
             ->required('username', $username, 'Username wajib diisi.')
             ->required('password', $password, 'Password wajib diisi.');
         if (!$validator->passes()) {
-            Helper::flashSet('danger', $validator->first());
-            Helper::redirect(self::LOGIN_PATH);
+            $this->failLogin($validator->first());
         }
         $limiter = new RateLimiter();
         $rateKey = 'login:' . hash('sha256', strtolower($username) . '|' . $ip);
         $rate = $limiter->hit($rateKey, $config['rate_limit']['login_max'], $config['rate_limit']['login_window']);
         if (!$rate['allowed']) {
             ActivityLog::log(null, 'LOGIN_RATE_LIMITED', $username, 'Too many requests', $ip);
-            Helper::flashSet('danger', 'Terlalu banyak percobaan login. Coba lagi nanti.');
-            Helper::redirect(self::LOGIN_PATH);
+            $this->failLogin('Terlalu banyak percobaan login. Coba lagi nanti.');
         }
         if (!Auth::attempt($username, $password)) {
             User::incrementFailedLogin($username);
             ActivityLog::log(null, 'LOGIN_FAILED', $username, 'Invalid credentials', $ip);
-            Helper::flashSet('danger', 'Username atau password tidak valid.');
-            Helper::redirect(self::LOGIN_PATH);
+            $this->failLogin('Username atau password tidak valid.');
         }
         $limiter->clear($rateKey);
         $user = Auth::user();

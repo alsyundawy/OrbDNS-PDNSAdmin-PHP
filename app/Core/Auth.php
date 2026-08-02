@@ -34,7 +34,8 @@ final class Auth
             return false;
         }
         $config = Config::all();
-        $ipMismatch = ($_SESSION['ip'] ?? '') !== ($_SERVER['REMOTE_ADDR'] ?? '');
+        // PHPStan: $_SESSION['ip'] is guaranteed non-null by isset() check above — direct access is intentional
+        $ipMismatch = $_SESSION['ip'] !== ($_SERVER['REMOTE_ADDR'] ?? ''); // NOSONAR
         $expired = time() - (int) ($_SESSION['login_at'] ?? 0) > (int) ($config['session']['lifetime'] ?? 7200);
         if ($ipMismatch || $expired) {
             self::logout();
